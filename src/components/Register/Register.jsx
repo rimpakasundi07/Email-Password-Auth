@@ -1,31 +1,37 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import React from "react";
+import React, { useState } from "react";
 import { auth } from "../../firebase/firebase.init";
 
 const Register = () => {
+  const [error, setError] = useState("");
+
   const handleRegister = (event) => {
     event.preventDefault();
     const email = event.target.email.value;
     const password = event.target.password.value;
     console.log("Register click", email, password);
 
+    // reset error
+    setError("");
+
     createUserWithEmailAndPassword(auth, email, password)
       .then((result) => {
         console.log("after creation of a new user", result.user);
       })
       .catch((error) => {
-        console.log(error);
+        console.log("error happened", error.message);
+        setError(error.message);
       });
   };
 
   return (
     <main className="w-full flex justify-center items-center">
-      <section className="bg-white shadow-lg rounded-2xl p-6 sm:p-8  max-w-2xl mx-4">
+      <section className="bg-white shadow-lg rounded-2xl p-6 sm:p-8  w-[600px] my-10  max-w-2xl mx-4">
         <h1 className="text-2xl lg:text-4xl font-bold mb-1 text-gray-800">
           Registration
         </h1>
 
-        <form onSubmit={handleRegister} className="space-y-5">
+        <form onSubmit={handleRegister} className="space-y-5 w-full ">
           <div>
             <label
               for="email"
@@ -87,6 +93,7 @@ const Register = () => {
               Register
             </button>
           </div>
+          {error && <p className="text-red-600">{error}</p>}
         </form>
       </section>
     </main>
