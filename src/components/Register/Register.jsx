@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { auth } from "../../firebase/firebase.init";
 
 const Register = () => {
+  const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
 
   const handleRegister = (event) => {
@@ -11,12 +12,14 @@ const Register = () => {
     const password = event.target.password.value;
     console.log("Register click", email, password);
 
-    // reset error
+    // reset status : success or error
     setError("");
+    setSuccess(false);
 
     createUserWithEmailAndPassword(auth, email, password)
       .then((result) => {
         console.log("after creation of a new user", result.user);
+        setSuccess(true);
       })
       .catch((error) => {
         console.log("error happened", error.message);
@@ -93,6 +96,9 @@ const Register = () => {
               Register
             </button>
           </div>
+          {success && (
+            <p className="text-green-500">Account created successfully</p>
+          )}
           {error && <p className="text-red-600">{error}</p>}
         </form>
       </section>
