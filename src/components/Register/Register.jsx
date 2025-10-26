@@ -2,6 +2,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { auth } from "../../firebase/firebase.init";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Link } from "react-router";
 
 const Register = () => {
   const [success, setSuccess] = useState(false);
@@ -11,12 +12,18 @@ const Register = () => {
   const handleRegister = (event) => {
     event.preventDefault();
     const email = event.target.email.value;
+    const terms = event.target.terms.checked;
     const password = event.target.password.value;
-    console.log("Register click", email, password);
+    console.log("Register click", email, password, terms);
 
     // reset status : success or error
     setError("");
     setSuccess(false);
+
+    if (!terms) {
+      setError("Please accept our terms and condtions");
+      return;
+    }
 
     createUserWithEmailAndPassword(auth, email, password)
       .then((result) => {
@@ -89,7 +96,7 @@ const Register = () => {
 
           <div>
             <label className="label">
-              <input type="checkbox" className="checkbox" />
+              <input type="checkbox" name="terms" className="checkbox" />
               Accept our Terms Conditions
             </label>
           </div>
@@ -116,6 +123,12 @@ const Register = () => {
           )}
           {error && <p className="text-red-600">{error}</p>}
         </form>
+        <p className="py-2">
+          Already have an account ? Please{" "}
+          <Link to="/login">
+            <span className="text-blue-600 underline ">Login</span>
+          </Link>
+        </p>
       </section>
     </main>
   );
