@@ -87,6 +87,13 @@ const Register = () => {
             </div>
           </div>
 
+          <div>
+            <label className="label">
+              <input type="checkbox" className="checkbox" />
+              Accept our Terms Conditions
+            </label>
+          </div>
+
           <div className="flex items-center justify-between">
             <div className="text-sm ">
               <a href="#" className="text-indigo-600 hover:underline">
