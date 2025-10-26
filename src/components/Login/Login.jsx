@@ -1,18 +1,25 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router";
 import { auth } from "../../firebase/firebase.init";
 
 const Login = () => {
+  const [error, setError] = useState("");
   const handleLogin = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
     console.log(email, password);
+
+    setError("");
+
     signInWithEmailAndPassword(auth, email, password)
-      .then()
+      .then((result) => {
+        console.log(result.user);
+      })
       .catch((error) => {
         console.log(error.message);
+        setError(error.message);
       });
   };
 
@@ -42,6 +49,7 @@ const Login = () => {
             <button className="btn bg-violet-800 text-white mt-4">Login</button>
           </fieldset>
         </form>
+        {error && <p className="text-red-500"> {error} </p>}
         <p className="py-2">
           New to our Website ? Please{" "}
           <Link to="/register">
