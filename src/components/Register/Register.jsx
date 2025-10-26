@@ -5,6 +5,7 @@ import { auth } from "../../firebase/firebase.init";
 const Register = () => {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleRegister = (event) => {
     event.preventDefault();
@@ -20,6 +21,7 @@ const Register = () => {
       .then((result) => {
         console.log("after creation of a new user", result.user);
         setSuccess(true);
+        event.target.reset();
       })
       .catch((error) => {
         console.log("error happened", error.message);
@@ -63,24 +65,24 @@ const Register = () => {
               <input
                 id="password"
                 name="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 required
                 minlength="6"
                 placeholder="Minimum 6 characters"
                 className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300"
               />
               <button
+                onClick={() => setShowPassword(!showPassword)}
+                className="btn btn-xs  absolute right-2 top-1/2 -translate-y-1/2 text-sm text-gray-500"
                 type="button"
-                id="togglePwd"
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-sm text-gray-500"
               >
-                Show
+                Eyes
               </button>
             </div>
           </div>
 
           <div className="flex items-center justify-between">
-            <div className="text-sm">
+            <div className="text-sm ">
               <a href="#" className="text-indigo-600 hover:underline">
                 Forgot password?
               </a>
