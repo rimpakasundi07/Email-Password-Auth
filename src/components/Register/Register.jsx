@@ -1,6 +1,7 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { auth } from "../../firebase/firebase.init";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Register = () => {
   const [success, setSuccess] = useState(false);
@@ -27,6 +28,11 @@ const Register = () => {
         console.log("error happened", error.message);
         setError(error.message);
       });
+  };
+
+  const handleTogglePasswordShow = (event) => {
+    event.preventDefault();
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -72,11 +78,11 @@ const Register = () => {
                 className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300"
               />
               <button
-                onClick={() => setShowPassword(!showPassword)}
+                onClick={handleTogglePasswordShow}
                 className="btn btn-xs  absolute right-2 top-1/2 -translate-y-1/2 text-sm text-gray-500"
                 type="button"
               >
-                Eyes
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
               </button>
             </div>
           </div>
