@@ -16,6 +16,9 @@ const Login = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((result) => {
         console.log(result.user);
+        if (!result.user.emailVerified) {
+          alert("please verify your Email Address");
+        }
       })
       .catch((error) => {
         console.log(error.message);
