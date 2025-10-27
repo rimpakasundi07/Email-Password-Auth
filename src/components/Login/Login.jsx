@@ -1,10 +1,15 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
-import React, { useState } from "react";
+import {
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import React, { useRef, useState } from "react";
 import { Link } from "react-router";
 import { auth } from "../../firebase/firebase.init";
 
 const Login = () => {
   const [error, setError] = useState("");
+  const emailRef = useRef();
+
   const handleLogin = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
@@ -26,6 +31,16 @@ const Login = () => {
       });
   };
 
+  const handleForgetPassword = () => {
+    const email = emailRef.current.value;
+    console.log("Forgot Password", email);
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        alert("Please check your Email");
+      })
+      .catch();
+  };
+
   return (
     <div className="card bg-base-100 w-full my-15 m-auto max-w-sm shrink-0 shadow-2xl">
       <div className="card-body">
@@ -36,6 +51,7 @@ const Login = () => {
             <input
               type="email"
               name="email"
+              ref={emailRef}
               className="input"
               placeholder="Email"
             />
@@ -46,7 +62,7 @@ const Login = () => {
               className="input"
               placeholder="Password"
             />
-            <div>
+            <div onClick={handleForgetPassword}>
               <a className="link link-hover">Forgot password?</a>
             </div>
             <button className="btn bg-violet-800 text-white mt-4">Login</button>
